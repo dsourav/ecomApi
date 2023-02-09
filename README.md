@@ -1,0 +1,2 @@
+- Project Title : Ecommerce API
+- Project Description : Ecommerce API built with node, express, mongoose and cloudinary
