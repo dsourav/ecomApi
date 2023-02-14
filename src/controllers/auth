@@ -1,0 +1,9 @@
+const authController = {};
+
+authController.login = async (req, res) => {
+  const { email, password } = req.body;
+};
+
+authController.signup = async (req, res) => {
+  const { email, password } = req.body;
+};

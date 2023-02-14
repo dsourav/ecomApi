@@ -12,4 +12,13 @@ validator.validatePassword = password => {
   return passwordRegex.test(password);
 };
 
+validator.validateMaxWord = (value, maxWord) => {
+  return value.split(' ').length <= maxWord;
+};
+
+validator.validateBDPhoneNumber = number => {
+  const bdMobileNumberRegex = /^0\d{10}$/;
+  return bdMobileNumberRegex.test(number);
+};
+
 module.exports = validator;
