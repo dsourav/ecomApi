@@ -5,4 +5,5 @@ authRouter.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 });
 
+authRouter.post('/api/signup', async (req, res) => {});
 module.exports = authRouter;

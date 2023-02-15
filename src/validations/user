@@ -1,0 +1,12 @@
+const Joi = require('Joi');
+
+const userSchemaValidation = Joi.object({
+  name: Joi.string()
+    .trim()
+    .alphanum()
+    .min(3)
+    .max(30)
+    .label('Provide valid name max 30 min 3'),
+  email: Joi.string().required().trim().label('Email is requied'),
+  password: Joi.string().required().label('password required'),
+});

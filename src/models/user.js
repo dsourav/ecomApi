@@ -1,6 +1,6 @@
 const { Schema, default: mongoose } = require('mongoose');
-const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
+const generateToken = require('../utils/generator_token');
 const { validateEmail, validatePassword } = require('../utils/validator');
 
 const userSchema = new Schema(
@@ -43,22 +43,40 @@ const userSchema = new Schema(
   { timestamp: true }
 );
 
-userSchema.methods.generateToken = async function () {
+userSchema.pre('save', async function (next) {
   const user = this;
-  const token = jwt.sign(
+  if (this.isModified('password')) {
+    const hashedPassword = bcrypt.hashSync(user.password, process.env.SALT);
+    user.password = hashedPassword;
+  }
+  next();
+});
+
+userSchema.methods.generateToken = function () {
+  const user = this;
+
+  const accessToken = generateToken({
+    userId: user._id,
+    userName: user.name,
+    role: user.role,
+    email: user.email,
+  });
+  const refreshToken = generateToken(
     {
       userId: user._id,
       userName: user.name,
       role: user.role,
       email: user.email,
     },
-    process.env.ACCESS_TOKEN_PRIVATE_KEY,
-    {
-      expiresIn: '1 days',
-    }
+    true
   );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = { User };
