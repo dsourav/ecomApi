@@ -7,7 +7,7 @@ const authRoute = require('./src/routes/auth');
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
 });
-
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URL);
 const PORT = process.env.PORT;
 

@@ -1,5 +1,6 @@
 const { Schema, default: mongoose } = require('mongoose');
 const bcrypt = require('bcrypt');
+
 const generateToken = require('../utils/generator_token');
 const { validateEmail, validatePassword } = require('../utils/validator');
 
@@ -79,4 +80,4 @@ userSchema.methods.generateToken = function () {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = { User };
+module.exports = User;
