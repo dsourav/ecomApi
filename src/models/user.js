@@ -1,5 +1,6 @@
 const { Schema, default: mongoose } = require('mongoose');
 const bcrypt = require('bcrypt');
+const { generateHashedPassword } = require('../utils/password_util');
 
 const generateToken = require('../utils/generator_token');
 const { validateEmail, validatePassword } = require('../utils/validator');
@@ -22,10 +23,6 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-      validate: {
-        validator: validatePassword,
-        message: 'Invalid password provided',
-      },
     },
     address: {
       type: String,
@@ -37,9 +34,6 @@ const userSchema = new Schema(
       default: 'customer',
       trim: true,
     },
-    token: {
-      type: String,
-    },
   },
   { timestamp: true }
 );
@@ -47,7 +41,7 @@ const userSchema = new Schema(
 userSchema.pre('save', async function (next) {
   const user = this;
   if (this.isModified('password')) {
-    const hashedPassword = bcrypt.hashSync(user.password, process.env.SALT);
+    const hashedPassword = generateHashedPassword(user.password);
     user.password = hashedPassword;
   }
   next();

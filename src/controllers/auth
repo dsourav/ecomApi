@@ -1,9 +1,0 @@
-const authController = {};
-
-authController.login = async (req, res) => {};
-
-authController.signup = async (req, res) => {
-  const { email, password } = req.body;
-};
-
-module.exports = authController;
