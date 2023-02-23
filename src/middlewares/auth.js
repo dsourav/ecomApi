@@ -13,6 +13,7 @@ const auth = async (req, res, next) => {
     if (user) {
       req.token = token;
       req.user = user;
+      req.isAdmin = user.role || false;
 
       next();
     }
