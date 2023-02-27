@@ -1,17 +1,29 @@
+const fs = require('fs');
+
+const imageCompressor = require('../utils/image_compressor');
 const cloudFileUploader = require('../utils/cloud_file_util');
 
 const cloudFileHandler = async (req, res, next) => {
-  if (res.files.isNotEmpty()) {
-    const imageUrlList = [];
-    for (file in files) {
-      const { url, public_id } = await cloudFileUploader(file, 'productImages');
-      if (url) {
-        imageUrlList.push(url);
+  try {
+    if (req.files) {
+      const imageUrlList = [];
+      for (index in req.files) {
+        const compressedFile = await imageCompressor.compressImage(
+          req.files[index].path
+        );
+        const filePath = compressedFile.path;
+        const { url } = await cloudFileUploader(filePath, 'productImages');
+        fs.unlinkSync(filePath);
+        if (url) {
+          imageUrlList.push({ url });
+        }
       }
+      req.imageUrls = imageUrlList;
+      next();
+    } else {
+      next();
     }
-    req.imageUrls = imageUrlList;
-    next();
-  } else {
+  } catch (error) {
     next();
   }
 };

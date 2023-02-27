@@ -1,41 +1,59 @@
 const { body } = require('express-validator');
 
 const ValidationMsg = require('../validations/validation_message');
+const { passwordRegex } = require('../utils/regex_util');
 
 const userValidator = {};
 
 userValidator.loginRules = () => {
   return [
-    body('email', ValidationMsg.emailRequired).isEmail(),
-    body('password', ValidationMsg.passwordRequired)
-      .isAlphanumeric()
-      .bail(ValidationMsg.passwordMustbeAlphaNumeric)
+    body('email')
+      .notEmpty()
+      .withMessage(ValidationMsg.emailRequired)
+      .bail()
+      .isEmail()
+      .withMessage(ValidationMsg.emailNotValid),
+    body('password')
+      .notEmpty()
+      .withMessage(ValidationMsg.passwordRequired)
+      .bail()
+      .matches(passwordRegex)
+      .withMessage(ValidationMsg.passwordMustbeAlphaNumeric)
+      .bail()
       .isLength({
         min: 8,
-        max: 12,
+        max: 50,
       })
-      .bail(ValidationMsg.passwordLengthHint),
+      .withMessage(ValidationMsg.passwordLengthHint),
   ];
 };
 
 userValidator.signUpRules = () => {
   return [
-    body('name', ValidationMsg.userName)
-      .trim()
+    body('name')
       .optional()
-      .isLength({ min: 3, max: 100 }),
+      .isLength({ min: 3, max: 100 })
+      .withMessage(ValidationMsg.userName)
+      .trim(),
     body('address').trim().optional(),
-    body('email', ValidationMsg.emailRequired)
+    body('email')
+      .notEmpty()
+      .withMessage(ValidationMsg.emailRequired)
+      .bail()
       .isEmail()
-      .bail(ValidationMsg.emailNotValid),
-    body('password', ValidationMsg.passwordRequired)
-      .isAlphanumeric()
-      .bail(ValidationMsg.passwordMustbeAlphaNumeric)
+      .withMessage(ValidationMsg.emailNotValid),
+    body('password')
+      .notEmpty()
+      .withMessage(ValidationMsg.passwordRequired)
+      .bail()
+      .matches(passwordRegex)
+      .withMessage(ValidationMsg.passwordMustbeAlphaNumeric)
+      .bail()
       .isLength({
         min: 8,
-        max: 12,
+        max: 50,
       })
-      .bail(ValidationMsg.passwordLengthHint),
+      .withMessage(ValidationMsg.passwordLengthHint),
   ];
 };
 

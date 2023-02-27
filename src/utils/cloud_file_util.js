@@ -1,20 +1,19 @@
 const cloudinary = require('cloudinary');
 
-cloudinary.v2.config({
-  // cloud_name:
-});
-
-exports.uplodFileToCloud = async (filePath, folder) => {
+const uplodFileToCloud = async (filePath, folderName) => {
   try {
     const result = await cloudinary.v2.uploader.upload(filePath, {
       resource_type: 'auto',
-      folder: folder,
+      folder: `${process.env.NODE_ENV}/` + folderName,
     });
+
     return {
-      ...result.url,
-      ...result.public_id,
+      url: result.secure_url,
+      public_id: result.public_id,
     };
   } catch (error) {
     return {};
   }
 };
+
+module.exports = uplodFileToCloud;

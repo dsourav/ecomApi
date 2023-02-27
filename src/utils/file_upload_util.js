@@ -2,9 +2,10 @@ const multer = require('multer');
 
 const diskStorage = multer.diskStorage({
   destination: 'uploads/',
-  filename: (req, file, error) => {
+  filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + '-' + uniqueSuffix);
+    var extension = file.fieldname.split('.').pop();
+    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
   },
 });
 

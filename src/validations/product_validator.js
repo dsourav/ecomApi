@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 const ValidationMsg = require('../validations/validation_message');
 
@@ -6,22 +6,35 @@ const productValidator = {};
 
 productValidator.addProductRules = () => {
   return [
-    body('name', ValidationMsg.productNameRequired).trim(),
-    body('description', ValidationMsg.productDescriptionRequired).trim(),
-    body('quantity', ValidationMsg.productDescriptionRequired)
-      .isNumeric()
-      .bail(ValidationMsg.productQtyMustbeNumeric)
+    check('name')
+      .notEmpty()
+      .withMessage(ValidationMsg.productNameRequired)
       .trim(),
 
-    body('price')
-      .optional()
-      .isNumeric()
-      .bail(ValidationMsg.productPriceMustbeNumeric),
+    check('description')
+      .notEmpty()
+      .withMessage(ValidationMsg.productDescriptionRequired)
+      .trim(),
 
-    body('price')
+    check('quantity')
+      .notEmpty()
+      .withMessage(ValidationMsg.productDescriptionRequired)
+      .bail()
+      .isNumeric()
+      .withMessage(ValidationMsg.productQtyMustbeNumeric)
+      .trim(),
+
+    check('price')
+      .notEmpty()
+      .withMessage(ValidationMsg.productPriceIsRequired)
+      .bail()
+      .isNumeric()
+      .withMessage(ValidationMsg.productPriceMustbeNumeric),
+
+    check('discount')
       .optional()
       .isNumeric()
-      .bail(ValidationMsg.productPriceMustbeNumeric),
+      .withMessage(ValidationMsg.productDiscountMustbeNumeric),
   ];
 };
 

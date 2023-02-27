@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { generateHashedPassword } = require('../utils/password_util');
 
 const generateToken = require('../utils/generator_token');
-const { validateEmail, validatePassword } = require('../utils/validator');
+const { validateEmail, validatePassword } = require('../utils/regex_util');
 
 const userSchema = new Schema(
   {
