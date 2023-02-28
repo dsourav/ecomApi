@@ -7,7 +7,7 @@ const productSchema = new Schema(
       trim: true,
       required: true,
     },
-    descriptoin: {
+    description: {
       type: String,
       trim: true,
     },
