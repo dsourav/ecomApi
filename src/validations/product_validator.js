@@ -38,4 +38,9 @@ productValidator.addProductRules = () => {
   ];
 };
 
+// productValidator.updateProductRules = () => {
+//   const rules = productValidator.addProductRules();
+//   rules[0] =
+// };
+
 module.exports = productValidator;

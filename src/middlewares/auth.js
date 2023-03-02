@@ -9,7 +9,6 @@ const auth = async (req, res, next) => {
     const data = jwt.verify(token, process.env.ACCESS_TOKEN_PRIVATE_KEY);
 
     const user = await User.findById(data.userId);
-
     if (user) {
       req.token = token;
       req.user = user;

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+// TODO refresh token has issue
 const generateToken = function (payload, isRefreshToken) {
   const token = jwt.sign(
     payload,

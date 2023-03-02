@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const imageCompressor = require('../utils/image_compressor');
-const cloudFileUploader = require('../utils/cloud_file_util');
+const { uplodFileToCloud } = require('../utils/cloud_file_util');
 
 const cloudFileHandler = async (req, res, next) => {
   try {
@@ -23,11 +23,12 @@ const cloudFileHandler = async (req, res, next) => {
           req.files[index].originalname
         );
 
-        const { url } = await cloudFileUploader(filePath, 'productImages');
+        const { url } = await uplodFileToCloud(filePath, 'productImages');
+        console.log(url);
         fs.unlinkSync(filePath);
 
         if (url) {
-          imageUrlList.push({ url });
+          imageUrlList.push(url);
         }
       }
       req.imageUrls = imageUrlList;

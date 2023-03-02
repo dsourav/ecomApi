@@ -34,14 +34,14 @@ app.use((error, req, res, next) => {
   if (error.status === 404) {
     return res.status(404).json({
       sucess: false,
-      error: error.message || 'Not found error',
+      error: error.message ?? 'Not found error',
       statusCode: 404,
     });
   }
 
   res.status(500).json({
     sucess: false,
-    error: error.message || 'Internal server error',
+    error: error.message ?? 'Internal server error',
     statusCode: 500,
   });
 });

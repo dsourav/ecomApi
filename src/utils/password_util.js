@@ -7,7 +7,7 @@ passwordUtil.generateHashedPassword = plainPassword => {
 };
 
 passwordUtil.passwordHasMatch = (plainPassword, encryptedPassword) => {
-  return bcrypt.compareSync(plainPassword || '', encryptedPassword || '');
+  return bcrypt.compareSync(plainPassword ?? '', encryptedPassword ?? '');
 };
 
 module.exports = passwordUtil;
