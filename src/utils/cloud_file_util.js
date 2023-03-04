@@ -18,7 +18,7 @@ cloudFileUtil.uplodFileToCloud = async (filePath, folderName) => {
   }
 };
 cloudFileUtil.getPublicIdFromImageUrl = imageURL =>
-  `${process.env.NODE_ENV}/producImages/` +
+  `${process.env.NODE_ENV}/productImages/` +
   imageURL.split('/').pop().split('.')[0];
 
 cloudFileUtil.deleteFilesFromCloud = async imageUrls => {
@@ -32,12 +32,8 @@ cloudFileUtil.deleteFilesFromCloud = async imageUrls => {
   }
 
   if (typeof imageUrls === 'string') {
-    // const publicId = cloudFileUtil.getPublicIdFromImageUrl(imageUrls);
-    // console.log(publicId);
-    cloudinary.v2.uploader.destroy(imageUrls, (error, res) => {
-      // console.log(error);
-      console.log(res);
-    });
+    const publicId = cloudFileUtil.getPublicIdFromImageUrl(imageUrls);
+    cloudinary.v2.uploader.destroy(publicId);
   }
 };
 

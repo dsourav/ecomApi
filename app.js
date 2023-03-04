@@ -18,7 +18,7 @@ cloudinary.v2.config({
 
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URL);
-const PORT = process.env.PORT;
+const PORT = process.env.PORT ?? 3000;
 
 const app = express();
 app.use(
